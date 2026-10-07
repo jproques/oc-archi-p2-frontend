@@ -56,7 +56,7 @@
       <div class="form-group">
         <label>Password</label>
         <input
-          type="text"
+          type="password"
           formControlName="password"
           class="form-control"
           [ngClass]="{ 'is-invalid': submitted && form['password'].errors }"
@@ -77,4 +77,5 @@
       </div>
     </form>
   </div>
+  <a routerLink="/login">Déjà un compte ? Se connecter</a>
 </div>

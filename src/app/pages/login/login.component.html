@@ -1,0 +1,34 @@
+<main class="login-card">
+  <h1>Connexion</h1>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" [attr.aria-busy]="loading">
+    <label for="login">Identifiant</label>
+    <input id="login" type="text" formControlName="login" autocomplete="username"
+      required [attr.aria-invalid]="submitted && loginForm.controls.login.invalid"
+      aria-describedby="login-error" />
+    @if (submitted && loginForm.controls.login.invalid) {
+      <p id="login-error" class="error">L’identifiant est obligatoire.</p>
+    }
+
+    <label for="password">Mot de passe</label>
+    <input id="password" type="password" formControlName="password" autocomplete="current-password"
+      required [attr.aria-invalid]="submitted && loginForm.controls.password.invalid"
+      aria-describedby="password-error" />
+    @if (submitted && loginForm.controls.password.invalid) {
+      <p id="password-error" class="error">Le mot de passe est obligatoire.</p>
+    }
+
+    <button type="submit" [disabled]="loading">
+      {{ loading ? 'Connexion en cours…' : 'Se connecter' }}
+    </button>
+    @if (loading) {
+      <p role="status">Authentification en cours…</p>
+    }
+    @if (errorMessage) {
+      <p class="error" role="alert">{{ errorMessage }}</p>
+    }
+    @if (success) {
+      <p class="success" role="status">Connexion réussie. Token d’authentification reçu.</p>
+    }
+  </form>
+  <a routerLink="/register">Créer un compte</a>
+</main>

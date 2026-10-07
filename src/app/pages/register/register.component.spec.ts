@@ -4,6 +4,7 @@ import { RegisterComponent } from './register.component';
 import { provideHttpClient } from '@angular/common/http';
 import { UserService } from '../../core/service/user.service';
 import { UserMockService } from '../../core/service/user-mock.service';
+import { provideRouter } from '@angular/router';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -14,7 +15,8 @@ describe('RegisterComponent', () => {
       imports: [RegisterComponent],
       providers: [
         provideHttpClient(),
-        { provide: UserService, useValue: UserMockService },
+        provideRouter([]),
+        { provide: UserService, useClass: UserMockService },
       ]
     })
     .compileComponents();

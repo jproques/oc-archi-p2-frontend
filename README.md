@@ -1,5 +1,25 @@
 # EtudiantFrontend
 
+## Connexion
+
+La page `/login` (également ouverte depuis `/`) permet de saisir un identifiant
+et un mot de passe obligatoires. Le service envoie le DTO `{ login, password }`
+à `POST /api/login` et reçoit le JWT au format texte. Le token est accessible
+via `UserService.token()` et reste en mémoire jusqu’au rechargement de la page.
+L’écran affiche le chargement, les erreurs serveur et la confirmation de connexion.
+Après une inscription réussie, l’application ouvre la page de connexion.
+
+Pour vérifier avec le backend :
+
+1. Démarrer le backend sur `http://localhost:8080` avec sa base MySQL.
+2. Lancer `npm start`, puis ouvrir `http://localhost:4200/login`.
+3. Créer un compte via `/register`, puis utiliser ces identifiants pour se connecter.
+4. Vérifier le message de succès et la réponse contenant le token dans l’onglet
+   Réseau du navigateur (`POST /api/login`). Tester également un mauvais mot de passe.
+
+Le serveur Angular relaie `/api` au backend grâce à `proxy.conf.json`.
+Exécuter les tests avec `npm test -- --runInBand` et compiler avec `npm run build`.
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.16.
 
 ## Development server

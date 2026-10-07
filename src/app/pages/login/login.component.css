@@ -1,0 +1,8 @@
+.login-card { max-width: 360px; margin: 48px auto; padding: 24px; }
+form { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+input, button { padding: 10px; font: inherit; }
+button { cursor: pointer; }
+button:disabled { cursor: wait; }
+.error { color: #b00020; }
+.success { color: #176b32; }
+p { margin: 0; }
