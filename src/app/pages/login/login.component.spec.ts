@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { provideRouter } from '@angular/router';
+import { provideRouter, Router } from '@angular/router';
 import { LoginComponent } from './login.component';
 import { UserService } from '../../core/service/user.service';
 
@@ -15,6 +15,7 @@ describe('LoginComponent', () => {
       imports: [LoginComponent],
       providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])]
     }).compileComponents();
+    jest.spyOn(TestBed.inject(Router), 'navigateByUrl').mockResolvedValue(true);
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
     http = TestBed.inject(HttpTestingController);
@@ -57,6 +58,7 @@ describe('LoginComponent', () => {
     expect(component.loginForm.enabled).toBe(true);
     expect(component.loginForm.controls.password.value).toBe('');
     expect(fixture.nativeElement.textContent).toContain('Connexion réussie');
+    expect(TestBed.inject(Router).navigateByUrl).toHaveBeenCalledWith('/students');
   });
 
   it('displays JSON server errors and allows retrying', () => {

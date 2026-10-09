@@ -1,0 +1,29 @@
+<h1>Détail de l’étudiant</h1>
+@if (savedMessage) { <p class="success" role="status">{{ savedMessage }}</p> }
+@if (loading) { <p role="status">Chargement de l’étudiant…</p> }
+@if (errorMessage) { <p class="error" role="alert">{{ errorMessage }}</p> }
+@if (student; as data) {
+  <dl>
+    <dt>Identifiant</dt><dd>{{ data.id }}</dd>
+    <dt>Prénom</dt><dd>{{ data.firstName }}</dd>
+    <dt>Nom</dt><dd>{{ data.lastName }}</dd>
+    <dt>Email</dt><dd>{{ data.email }}</dd>
+    <dt>Date de naissance</dt><dd>{{ data.dateOfBirth | date:'dd/MM/yyyy' }}</dd>
+    <dt>Lieu de naissance</dt><dd>{{ data.placeOfBirth }}</dd>
+  </dl>
+  @if (confirmDelete) {
+    <section aria-label="Confirmation de suppression">
+      <p>Supprimer définitivement {{ data.firstName }} {{ data.lastName }} ?</p>
+      <button type="button" (click)="delete()" [disabled]="deleting">
+        {{ deleting ? 'Suppression en cours…' : 'Confirmer la suppression' }}
+      </button>
+      <button type="button" (click)="confirmDelete = false" [disabled]="deleting">Annuler</button>
+    </section>
+  } @else {
+    <div class="actions">
+      <a [routerLink]="['/students', data.id, 'edit']">Modifier</a>
+      <button type="button" (click)="confirmDelete = true">Supprimer</button>
+    </div>
+  }
+}
+<p><a routerLink="/students">Retour à la liste</a></p>

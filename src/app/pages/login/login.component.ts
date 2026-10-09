@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
 import { UserService } from '../../core/service/user.service';
@@ -16,6 +16,8 @@ import { UserService } from '../../core/service/user.service';
 export class LoginComponent {
   private userService = inject(UserService);
   private destroyRef = inject(DestroyRef);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
   readonly loginForm = inject(FormBuilder).nonNullable.group({
     login: ['', [Validators.required, Validators.pattern(/\S/)]],
     password: ['', Validators.required]
@@ -50,6 +52,9 @@ export class LoginComponent {
           this.success = true;
           this.loginForm.controls.password.reset();
           this.submitted = false;
+          const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+          void this.router.navigateByUrl(returnUrl && /^\/students(?:\/|\?|$)/.test(returnUrl)
+            ? returnUrl : '/students');
         },
         error: (error: unknown) => {
           this.errorMessage = this.getErrorMessage(error);

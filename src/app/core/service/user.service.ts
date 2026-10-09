@@ -13,6 +13,24 @@ export class UserService {
 
   constructor(private httpClient: HttpClient) { }
 
+  isAuthenticated(): boolean {
+    const token = this.token();
+    if (!token) return false;
+    try {
+      const parts = token.split('.');
+      if (parts.length !== 3) return false;
+      const payload = JSON.parse(atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')));
+      return typeof payload.exp === 'number' && Number.isFinite(payload.exp)
+        && payload.exp * 1000 > Date.now();
+    } catch {
+      return false;
+    }
+  }
+
+  logout(): void {
+    this.authenticationToken.set(null);
+  }
+
   register(user: Register): Observable<Object> {
     return this.httpClient.post('/api/register', user);
   }

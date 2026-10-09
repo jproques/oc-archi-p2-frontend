@@ -1,0 +1,28 @@
+<h1>Étudiants</h1>
+@if (deleted) { <p class="success" role="status">Étudiant supprimé.</p> }
+@if (loading) {
+  <p role="status">Chargement des étudiants…</p>
+} @else if (errorMessage) {
+  <p class="error" role="alert">{{ errorMessage }}</p>
+  <button type="button" (click)="load()">Réessayer</button>
+} @else if (students.length === 0) {
+  <p>Aucun étudiant enregistré.</p>
+} @else {
+  <div class="table-container">
+    <table>
+      <thead><tr><th>Prénom</th><th>Nom</th><th>Email</th><th>Actions</th></tr></thead>
+      <tbody>
+        @for (student of students; track student.id) {
+          <tr>
+            <td>{{ student.firstName }}</td><td>{{ student.lastName }}</td><td>{{ student.email }}</td>
+            <td class="actions">
+              <a [routerLink]="['/students', student.id]">Détail</a>
+              <a [routerLink]="['/students', student.id, 'edit']">Modifier</a>
+              <a [routerLink]="['/students', student.id]" [queryParams]="{ delete: '1' }">Supprimer</a>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}

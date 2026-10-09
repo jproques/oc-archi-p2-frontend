@@ -1,0 +1,30 @@
+<h1>{{ editing ? 'Modifier un étudiant' : 'Ajouter un étudiant' }}</h1>
+@if (loading) { <p role="status">Chargement de l’étudiant…</p> }
+@if (errorMessage) { <p class="error" role="alert">{{ errorMessage }}</p> }
+<form class="student-form" [formGroup]="form" (ngSubmit)="onSubmit()" [attr.aria-busy]="loading || saving" novalidate>
+  @for (field of fields; track field.name) {
+    <label [for]="field.name">{{ field.label }}</label>
+    <input [id]="field.name" [type]="field.type" [formControlName]="field.name" required
+      [attr.maxlength]="field.type === 'date' ? null : 255"
+      [attr.max]="field.type === 'date' ? maxDate : null"
+      [attr.aria-invalid]="(submitted || form.controls[field.name].touched) && form.controls[field.name].invalid"
+      [attr.aria-describedby]="field.name + '-error'" />
+    @if ((submitted || form.controls[field.name].touched) && form.controls[field.name].invalid) {
+      <p class="error" [id]="field.name + '-error'">
+        @if (form.controls[field.name].hasError('required') || form.controls[field.name].hasError('pattern')) {
+          {{ field.label }} est obligatoire.
+        } @else if (form.controls[field.name].hasError('email')) {
+          Saisissez un email valide.
+        } @else if (form.controls[field.name].hasError('birthDate')) {
+          Saisissez une date de naissance valide, qui ne soit pas future.
+        } @else {
+          Maximum 255 caractères.
+        }
+      </p>
+    }
+  }
+  <button type="submit" [disabled]="!ready || loading || saving">
+    {{ saving ? 'Enregistrement en cours…' : 'Enregistrer' }}
+  </button>
+  <a routerLink="/students">Annuler</a>
+</form>

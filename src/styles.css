@@ -2,3 +2,19 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.students-page { max-width: 900px; padding: 24px; margin: auto; }
+.students-page nav, .students-page .actions { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+.students-page nav { padding-bottom: 16px; border-bottom: 1px solid #ccc; }
+.students-page input, .students-page button { padding: 8px; font: inherit; }
+.students-page button { cursor: pointer; }
+.students-page button:disabled { cursor: default; }
+.students-page .student-form { display: flex; flex-direction: column; gap: 10px; max-width: 400px; }
+.students-page .student-form p { margin: 0; }
+.students-page .error { color: #b00020; }
+.students-page .success { color: #176b32; }
+.students-page .table-container { overflow-x: auto; }
+.students-page table { border-collapse: collapse; width: 100%; }
+.students-page th, .students-page td { padding: 12px; border-bottom: 1px solid #ccc; text-align: left; }
+.students-page dt { font-weight: bold; margin-top: 12px; }
+.students-page dd { margin: 4px 0; }
