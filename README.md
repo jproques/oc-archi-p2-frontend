@@ -98,13 +98,36 @@ jest
 
 ## Running end-to-end tests
 
-For end-to-end (e2e) testing, run:
+Les tests Cypress appellent le vrai backend. Démarrer le backend sur le port
+8080 avec une base de développement, puis le frontend dans un autre terminal :
 
 ```bash
-ng e2e
+npm start
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Lancer les tests dans un troisième terminal :
+
+```bash
+npm run e2e
+```
+
+Pour ouvrir l’interface Cypress : `npm run e2e:open`.
+La base URL par défaut est `http://localhost:4200` ; elle peut être changée avec
+`npm run e2e -- --config baseUrl=http://localhost:4201`.
+
+`cypress/e2e/auth.cy.ts` teste l’inscription, la connexion, les erreurs de
+connexion, le JWT envoyé à l’API, les guards et la déconnexion.
+`cypress/e2e/students.cy.ts` teste la liste, le détail, la création, la validation,
+la modification et la suppression avec confirmation et annulation.
+
+Les tests sont indépendants : leurs utilisateurs et étudiants ont des valeurs
+uniques à chaque exécution. Les étudiants créés sont supprimés après chaque test,
+y compris après un échec. Les comptes de test restent en base, car l’API ne
+propose pas de suppression d’utilisateur. Aucun compte personnel n’est requis.
+Les appels `cy.intercept()` observent les requêtes réelles ; seuls les tests de
+formulaire invalide bloquent explicitement tout appel qui serait inattendu.
+Le JWT est conservé en mémoire par Angular : chaque test se connecte par l’UI et
+navigue via les liens, sans recharger l’application après la connexion.
 
 ## Additional Resources
 
